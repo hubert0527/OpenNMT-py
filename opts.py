@@ -261,6 +261,33 @@ def train_opts(parser):
                         help="Sample rate.")
     parser.add_argument('-window_size', type=float, default=.02,
                         help="Window size for spectrogram in seconds.")
+    parser.add_argument('-window_stride', type=float, default=.01,
+                        help='Window stride for spectrogram in seconds')
+    parser.add_argument('-window', default='hamming',
+                        help='Window type for spectrogram generation')
+
+    # Validation selection
+    parser.add_argument('-eval_metric', type=str, default='gleu',
+                        help="Select which evaluation metric to use. Options: [gleu|simple]")
+    parser.add_argument('-gleu_src_path', type=str,
+                        help="Specify which source file will be used while evaluation")
+    parser.add_argument('-gleu_tgt_path', type=str,
+                        help="Specify which target file will be used while evaluation")
+    parser.add_argument('-beam_size',  type=int, default=5,
+                        help='Beam size')
+    parser.add_argument('-n_best', type=int, default=1,
+                        help="""If verbose is set, will output the n_best
+                        decoded sentences""")
+    parser.add_argument('-max_sent_length', type=int, default=100,
+                        help='Maximum sentence length.')
+    parser.add_argument('-replace_unk', action="store_true",
+                        help="""Replace the generated UNK tokens with the
+                        source token that had highest attention weight. If
+                        phrase_table is provided, it will lookup the
+                        identified source token and give the corresponding
+                        target token. If it is not provided(or the identified
+                        source token does not exist in the table) then it
+                        will copy the source token""")
 
 
 def translate_opts(parser):
